@@ -13,15 +13,19 @@
           <v-col cols="2">
             <v-sheet rounded="lg">
               <v-list rounded="lg">
-                <v-list-item v-for="n in 5" :key="n" link>
-                  <v-list-item-title> List Item {{ n }} </v-list-item-title>
-                </v-list-item>
+                <div v-for="page in pages" :key="page">
+                  <v-list-item @click="navigate(page.route)" link>
+                    <v-list-item-title>
+                      {{ page.title }}
+                    </v-list-item-title>
+                  </v-list-item>
+                </div>
               </v-list>
             </v-sheet>
           </v-col>
           <v-col>
             <v-sheet min-height="80vh" rounded="lg">
-              <!--  -->
+              <router-view />
             </v-sheet>
           </v-col>
         </v-row>
@@ -39,8 +43,17 @@
 <script>
 export default {
   data: () => ({
-    links: ["Dashboard", "Messages", "Profile", "Updates"],
+    pages: [
+      { title: "Login", route: "/login" },
+      { title: "Todos", route: "/todos" },
+      { title: "Translate", route: "/translate" },
+    ],
   }),
+  methods: {
+    navigate(route) {
+      this.$router.push(route);
+    },
+  },
 };
 </script>
 
