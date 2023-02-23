@@ -11,9 +11,9 @@
       <v-container>
         <v-row>
           <v-col cols="2">
-            <v-sheet rounded="lg">
-              <v-list rounded="lg">
-                <div v-for="page in pages" :key="page">
+            <v-sheet rounded>
+              <v-list rounded>
+                <div v-for="(page, index) in pages" :key="index">
                   <v-list-item @click="navigate(page.route)" link>
                     <v-list-item-title>
                       {{ page.title }}
@@ -24,7 +24,7 @@
             </v-sheet>
           </v-col>
           <v-col>
-            <v-sheet min-height="80vh" rounded="lg">
+            <v-sheet min-height="80vh" rounded>
               <router-view />
             </v-sheet>
           </v-col>

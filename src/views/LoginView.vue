@@ -12,7 +12,7 @@
     <v-text-field
       v-model="user.password"
       tabindex="1"
-      :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
+      :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
       :rules="[rules.required]"
       :type="showPassword ? 'text' : 'password'"
       label="Password"
