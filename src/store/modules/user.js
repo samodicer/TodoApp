@@ -2,10 +2,12 @@ import { API } from "../../api";
 import axios from "axios";
 
 const state = {
-  AuthToken: "",
+  authToken: "",
 };
 
-const getters = {};
+const getters = {
+  getAuthToken: (state) => state.authToken,
+};
 
 const actions = {
   async userLogin({ commit }, user) {
@@ -37,7 +39,8 @@ const actions = {
 
 const mutations = {
   setAuthToken: (state, token) => {
-    state.AuthToken = token;
+    state.authToken = token;
+    localStorage.setItem("authToken", token);
   },
 };
 

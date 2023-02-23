@@ -12,13 +12,13 @@
     <v-text-field
       v-model="user.password"
       tabindex="1"
-      :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+      label="Password"
+      placeholder="Password"
       :rules="[rules.required]"
       :type="showPassword ? 'text' : 'password'"
-      label="Password"
-      hint="At least 8 characters"
-      outlined
+      :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
       @click:append="showPassword = !showPassword"
+      outlined
       color="#26A69A"
     ></v-text-field>
     <v-btn

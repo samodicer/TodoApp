@@ -51,7 +51,9 @@ export default {
   }),
   methods: {
     navigate(route) {
-      this.$router.push(route);
+      if (this.$route.path != route) {
+        this.$router.push(route);
+      }
     },
   },
 };
