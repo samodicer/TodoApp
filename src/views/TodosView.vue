@@ -1,5 +1,5 @@
 <template>
-  <v-card>
+  <v-card class="pa-6" flat>
     <p>Todos</p>
     <v-btn @click="showDialog"> Add </v-btn>
     <TodoDialog
@@ -8,8 +8,8 @@
       :action="saveDialog"
       btnText="Create"
     />
-    <div v-for="todo in getTodoList" :key="todo.id">
-      {{ todo.text }}
+    <div class="my-4" v-for="todo in getTodoList" :key="todo.id">
+      <TodoItem :id="todo.id" :title="todo.text" :subtitle="todo.dueDate" />
     </div>
   </v-card>
 </template>
@@ -17,10 +17,11 @@
 <script>
 import { mapActions, mapGetters } from "vuex";
 import TodoDialog from "../components/TodoDialog.vue";
+import TodoItem from "../components/TodoItem.vue";
 
 export default {
   name: "TodosView",
-  components: { TodoDialog },
+  components: { TodoDialog, TodoItem },
   data() {
     return {
       dialog: false,
