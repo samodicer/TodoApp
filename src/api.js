@@ -1,3 +1,3 @@
-const API = "https://prodapi.juno.one";
+const API = "http://localhost:8080";
 
 export { API };

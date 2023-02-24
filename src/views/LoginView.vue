@@ -1,5 +1,5 @@
 <template>
-  <v-form v-model="isFormValid">
+  <v-form class="pa-6" v-model="isFormValid">
     <v-text-field
       v-model="user.email"
       tabindex="1"
