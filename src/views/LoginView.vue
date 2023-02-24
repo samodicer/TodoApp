@@ -7,7 +7,7 @@
         tabindex="1"
         label="Email"
         placeholder="Email"
-        :rules="[rules.required]"
+        :rules="[rules.required, rules.max]"
         outlined
         color="primary"
       ></v-text-field>
@@ -16,7 +16,7 @@
         tabindex="1"
         label="Password"
         placeholder="Password"
-        :rules="[rules.required]"
+        :rules="[rules.required, rules.max]"
         :type="showPassword ? 'text' : 'password'"
         :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
         @click:append="showPassword = !showPassword"
@@ -51,6 +51,7 @@ export default {
       isFormValid: false,
       rules: {
         required: (value) => !!value || "This field is required",
+        max: (value) => value.length <= 255 || "Max 255 characters",
       },
     };
   },
