@@ -14,6 +14,7 @@
       :show="editDialog"
       :cancel="cancelEditDialog"
       :action="saveEditDialog"
+      :current="currentTodo"
       title="Update"
     />
     <div class="my-4" v-for="todo in getTodoList" :key="todo.id">
@@ -39,6 +40,11 @@ export default {
   components: { TodoDialog, TodoItem },
   data() {
     return {
+      currentTodo: {
+        text: "",
+        completed: false,
+        dueDate: "",
+      },
       addDialog: false,
       editDialog: false,
       clickedTodo: -1,
@@ -71,6 +77,7 @@ export default {
     showEditDialog(id) {
       this.editDialog = true;
       this.clickedTodo = id;
+      this.currentTodo = this.getTodoList.find((todo) => todo.id === id);
     },
     cancelEditDialog() {
       this.editDialog = false;

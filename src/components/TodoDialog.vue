@@ -61,10 +61,36 @@ export default {
       },
     };
   },
-  props: ["show", "cancel", "action", "title"],
+  props: {
+    show: {
+      type: Boolean,
+      required: true,
+    },
+    cancel: {
+      type: Function,
+      required: true,
+    },
+    action: {
+      type: Function,
+      required: true,
+    },
+    title: {
+      type: String,
+      required: true,
+    },
+    current: {
+      type: Object,
+      required: false,
+    },
+  },
   methods: {
     execute() {
       this.action(this.todo);
+    },
+  },
+  watch: {
+    current(newVal) {
+      this.todo = newVal;
     },
   },
 };
