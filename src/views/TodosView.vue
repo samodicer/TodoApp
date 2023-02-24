@@ -1,15 +1,29 @@
 <template>
   <v-card class="pa-6" flat>
-    <p>Todos</p>
-    <v-btn @click="showDialog"> Add </v-btn>
+    <v-card-title class="d-flex justify-center">TODO LIST</v-card-title>
+    <v-icon color="primary" size="52" @click="showAddDialog"
+      >mdi-plus-circle</v-icon
+    >
     <TodoDialog
-      :show="dialog"
-      :cancel="cancelDialog"
-      :action="saveDialog"
-      btnText="Create"
+      :show="addDialog"
+      :cancel="cancelAddDialog"
+      :action="saveAddDialog"
+      title="Create"
+    />
+    <TodoDialog
+      :show="editDialog"
+      :cancel="cancelEditDialog"
+      :action="saveEditDialog"
+      title="Update"
     />
     <div class="my-4" v-for="todo in getTodoList" :key="todo.id">
-      <TodoItem :id="todo.id" :title="todo.text" :subtitle="todo.dueDate" />
+      <TodoItem
+        :id="todo.id"
+        :title="todo.text"
+        :subtitle="todo.dueDate"
+        :show="showEditDialog"
+        :deleteTodo="deleteClickedTodo"
+      />
     </div>
   </v-card>
 </template>
@@ -24,12 +38,13 @@ export default {
   components: { TodoDialog, TodoItem },
   data() {
     return {
-      dialog: false,
+      addDialog: false,
+      editDialog: false,
+      clickedTodo: -1,
     };
   },
   computed: {
     ...mapGetters({
-      getAuthToken: "user/getAuthToken",
       getTodoList: "todos/getTodoList",
     }),
   },
@@ -37,22 +52,44 @@ export default {
     ...mapActions({
       fetchTodoList: "todos/fetchTodoList",
       createTodo: "todos/createTodo",
+      updateTodo: "todos/updateTodo",
+      deleteTodo: "todos/deleteTodo",
     }),
-    showDialog() {
-      this.dialog = true;
+    showAddDialog() {
+      this.addDialog = true;
     },
-    cancelDialog() {
-      this.dialog = false;
+    cancelAddDialog() {
+      this.addDialog = false;
     },
-    saveDialog(todo) {
+    saveAddDialog(todo) {
       this.createTodo(todo).then(() => {
-        this.fetchTodoList(this.getAuthToken);
-        this.cancelDialog();
+        this.fetchTodoList(localStorage.getItem("authToken"));
+        this.cancelAddDialog();
+      });
+    },
+    showEditDialog(id) {
+      this.editDialog = true;
+      this.clickedTodo = id;
+    },
+    cancelEditDialog() {
+      this.editDialog = false;
+    },
+    saveEditDialog(todo) {
+      todo.id = this.clickedTodo;
+      this.updateTodo(todo).then(() => {
+        this.fetchTodoList(localStorage.getItem("authToken"));
+        this.cancelEditDialog();
+      });
+    },
+    deleteClickedTodo(id) {
+      this.deleteTodo(id).then(() => {
+        this.fetchTodoList(localStorage.getItem("authToken"));
+        this.cancelEditDialog();
       });
     },
   },
   mounted() {
-    this.fetchTodoList(this.getAuthToken);
+    this.fetchTodoList(localStorage.getItem("authToken"));
   },
 };
 </script>

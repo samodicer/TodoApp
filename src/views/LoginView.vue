@@ -1,35 +1,38 @@
 <template>
-  <v-form class="pa-6" v-model="isFormValid">
-    <v-text-field
-      v-model="user.email"
-      tabindex="1"
-      label="Email"
-      placeholder="Email"
-      :rules="[rules.required]"
-      outlined
-      color="#26A69A"
-    ></v-text-field>
-    <v-text-field
-      v-model="user.password"
-      tabindex="1"
-      label="Password"
-      placeholder="Password"
-      :rules="[rules.required]"
-      :type="showPassword ? 'text' : 'password'"
-      :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-      @click:append="showPassword = !showPassword"
-      outlined
-      color="#26A69A"
-    ></v-text-field>
-    <v-btn
-      class="white--text"
-      tabindex="2"
-      color="#26A69A"
-      :disabled="!isFormValid"
-      @click="login()"
-    >
-      Login
-    </v-btn>
+  <v-form class="d-flex justify-center pa-6" v-model="isFormValid">
+    <v-card flat width="600">
+      <v-card-title class="d-flex justify-center">LOGIN</v-card-title>
+      <v-text-field
+        v-model="user.email"
+        tabindex="1"
+        label="Email"
+        placeholder="Email"
+        :rules="[rules.required]"
+        outlined
+        color="primary"
+      ></v-text-field>
+      <v-text-field
+        v-model="user.password"
+        tabindex="1"
+        label="Password"
+        placeholder="Password"
+        :rules="[rules.required]"
+        :type="showPassword ? 'text' : 'password'"
+        :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+        @click:append="showPassword = !showPassword"
+        outlined
+        color="primary"
+      ></v-text-field>
+      <v-btn
+        class="white--text"
+        tabindex="2"
+        color="primary"
+        :disabled="!isFormValid"
+        @click="login()"
+      >
+        Login
+      </v-btn>
+    </v-card>
   </v-form>
 </template>
 

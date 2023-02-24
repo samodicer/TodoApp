@@ -58,6 +58,53 @@ const actions = {
         });
     });
   },
+  async updateTodo({ commit }, todo) {
+    return new Promise((resolve, reject) => {
+      axios({
+        method: "put",
+        url: API + `/todolist/` + todo.id,
+        headers: {
+          Authorization: localStorage.getItem("authToken"),
+          "X-TenantID": "dicerproject",
+        },
+        data: {
+          text: todo.text,
+          completed: todo.completed,
+          dueDate: todo.dueDate,
+        },
+      })
+        .then((response) => {
+          console.log(response);
+          commit("");
+          resolve();
+        })
+        .catch((err) => {
+          console.log(err);
+          reject(err);
+        });
+    });
+  },
+  async deleteTodo({ commit }, id) {
+    return new Promise((resolve, reject) => {
+      axios({
+        method: "delete",
+        url: API + `/todolist/` + id,
+        headers: {
+          Authorization: localStorage.getItem("authToken"),
+          "X-TenantID": "dicerproject",
+        },
+      })
+        .then((response) => {
+          console.log(response);
+          commit("");
+          resolve();
+        })
+        .catch((err) => {
+          console.log(err);
+          reject(err);
+        });
+    });
+  },
 };
 
 const mutations = {

@@ -1,7 +1,8 @@
 <template>
-  <v-dialog :value="show" width="auto">
-    <v-card>
+  <v-dialog :value="show" width="auto" persistent>
+    <v-card class="pa-6">
       <v-card-text>
+        <v-card-title>{{ title }} Todo</v-card-title>
         <v-text-field
           v-model="todo.text"
           tabindex="1"
@@ -9,7 +10,7 @@
           placeholder="Text"
           :rules="[rules.required]"
           outlined
-          color="#26A69A"
+          color="primary"
         ></v-text-field>
         <v-text-field
           v-model="todo.dueDate"
@@ -18,7 +19,7 @@
           placeholder="Date"
           :rules="[rules.required]"
           outlined
-          color="#26A69A"
+          color="primary"
         ></v-text-field>
         <v-checkbox label="Completed" v-model="todo.completed"></v-checkbox>
       </v-card-text>
@@ -28,7 +29,7 @@
           Close
         </v-btn>
         <v-btn color="blue-darken-1" variant="text" @click="execute()">
-          {{ btnText }}
+          {{ title }}
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -43,7 +44,7 @@ export default {
       todo: {
         text: "",
         completed: false,
-        dueDate: "2022-03-28",
+        dueDate: "",
       },
       dialog: true,
       isFormValid: false,
@@ -52,7 +53,7 @@ export default {
       },
     };
   },
-  props: ["show", "cancel", "action", "btnText"],
+  props: ["show", "cancel", "action", "title"],
   methods: {
     execute() {
       this.action(this.todo);
