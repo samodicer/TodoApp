@@ -11,6 +11,9 @@ const routes = [
     path: "/todos",
     name: "todos",
     component: TodosView,
+    meta: {
+      requiresLogin: true,
+    },
   },
   {
     path: "/login",
@@ -21,6 +24,9 @@ const routes = [
     path: "/translate",
     name: "translate",
     component: TranslateView,
+    meta: {
+      requiresLogin: true,
+    },
   },
 ];
 

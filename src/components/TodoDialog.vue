@@ -44,6 +44,7 @@
 </template>
 
 <script>
+import Vue from "vue";
 export default {
   name: "TodoDialog",
   data() {
@@ -90,7 +91,7 @@ export default {
   },
   watch: {
     current(newVal) {
-      this.todo = newVal;
+      this.todo = Vue.util.extend({}, newVal);
     },
   },
 };
