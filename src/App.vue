@@ -32,7 +32,7 @@
       </v-container>
     </v-main>
     <v-footer min-height="10vh" class="text-center d-flex flex-column">
-      <p>Footer</p>
+      <p>TODO App - Samuel Dicer - 2023</p>
     </v-footer>
   </v-app>
 </template>
@@ -41,7 +41,7 @@
 export default {
   data: () => ({
     pages: [
-      { title: "Login", route: "/login" },
+      { title: "Login", route: "/" },
       { title: "Todos", route: "/todos" },
       { title: "Translate", route: "/translate" },
     ],
