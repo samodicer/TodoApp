@@ -19,8 +19,9 @@
     <div class="my-4" v-for="todo in getTodoList" :key="todo.id">
       <TodoItem
         :id="todo.id"
-        :title="todo.text"
-        :subtitle="todo.dueDate"
+        :text="todo.text"
+        :dueDate="todo.dueDate"
+        :color="todo.completed ? '#C8E6C9' : '#FFCDD2'"
         :show="showEditDialog"
         :deleteTodo="deleteClickedTodo"
       />
