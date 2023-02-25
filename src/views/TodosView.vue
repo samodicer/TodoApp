@@ -87,7 +87,7 @@ export default {
     },
     async fetchTodoList() {
       return new Promise((resolve, reject) => {
-        console.log("fetching todo");
+        console.log("fetching todo list");
         axios({
           method: "get",
           url: API + `/todolist`,

@@ -1,10 +1,11 @@
 <template>
   <v-app style="background: grey">
     <v-app-bar flat app>
-      <v-container class="fill-height d-flex align-center">
-        <v-avatar class="me-10 ms-4" color="grey" size="32"></v-avatar>
+      <v-container class="py-0 fill-height">
+        <v-icon color="primary" size="32">mdi-calendar-clock</v-icon>
+        <p class="mb-0 ml-2 font-weight-bold">TODO App</p>
         <v-spacer></v-spacer>
-        Meno
+        <v-switch class="mt-4" v-model="toggled" label="CZ"></v-switch>
       </v-container>
     </v-app-bar>
     <v-main>
@@ -45,6 +46,7 @@ export default {
       { title: "Todos", route: "/todos" },
       { title: "Translate", route: "/translate" },
     ],
+    toggled: false,
   }),
   methods: {
     navigate(route) {
@@ -52,6 +54,22 @@ export default {
         this.$router.push(route);
       }
     },
+  },
+  watch: {
+    toggled(newVal) {
+      if (newVal) {
+        this.$i18n.locale = "cz";
+      } else {
+        this.$i18n.locale = "en";
+      }
+    },
+  },
+  mounted() {
+    if (this.$i18n.locale == "en") {
+      this.toggled = false;
+    } else {
+      this.toggled = true;
+    }
   },
 };
 </script>

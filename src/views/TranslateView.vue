@@ -1,33 +1,21 @@
 <template>
-  <v-card class="pa-6" flat>
-    <v-switch v-model="toggled" label="CZ" inset></v-switch>
-    <p>{{ $t("message") }}</p>
-  </v-card>
+  <div class="d-flex justify-center pa-6">
+    <v-card width="800" flat>
+      <v-card-title class="justify-center text-h2">{{
+        $t("vue_title")
+      }}</v-card-title>
+      <v-card-text class="text-center text-h5">{{
+        $t("vue_text")
+      }}</v-card-text>
+    </v-card>
+  </div>
 </template>
 
 <script>
 export default {
   name: "TranslateView",
   data() {
-    return {
-      toggled: false,
-    };
-  },
-  watch: {
-    toggled(newVal) {
-      if (newVal) {
-        this.$i18n.locale = "cz";
-      } else {
-        this.$i18n.locale = "en";
-      }
-    },
-  },
-  mounted() {
-    if (this.$i18n.locale == "en") {
-      this.toggled = false;
-    } else {
-      this.toggled = true;
-    }
+    return {};
   },
 };
 </script>

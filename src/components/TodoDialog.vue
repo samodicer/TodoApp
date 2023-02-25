@@ -3,7 +3,7 @@
     <v-form class="d-flex justify-center" v-model="isFormValid">
       <v-card class="pa-6">
         <v-card-text>
-          <v-card-title>{{ title }} Todo</v-card-title>
+          <v-card-title class="justify-center">{{ title }} Todo</v-card-title>
           <v-text-field
             v-model="todo.text"
             tabindex="1"

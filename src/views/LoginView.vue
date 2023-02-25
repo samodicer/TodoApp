@@ -1,7 +1,7 @@
 <template>
   <v-form class="d-flex justify-center pa-6" v-model="isFormValid">
     <v-card flat width="600">
-      <v-card-title class="d-flex justify-center">LOGIN</v-card-title>
+      <v-card-title class="justify-center">LOGIN</v-card-title>
       <v-text-field
         v-model="user.email"
         tabindex="1"
@@ -23,15 +23,17 @@
         outlined
         color="primary"
       ></v-text-field>
-      <v-btn
-        class="white--text"
-        tabindex="2"
-        color="primary"
-        :disabled="!isFormValid"
-        @click="login()"
-      >
-        Login
-      </v-btn>
+      <div class="text-center">
+        <v-btn
+          class="justify-center"
+          tabindex="2"
+          color="primary"
+          :disabled="!isFormValid"
+          @click="login()"
+        >
+          Login
+        </v-btn>
+      </div>
     </v-card>
   </v-form>
 </template>
