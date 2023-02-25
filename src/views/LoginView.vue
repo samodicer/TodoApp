@@ -37,7 +37,8 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { API } from "../api";
+import axios from "axios";
 
 export default {
   name: "LoginView",
@@ -56,13 +57,31 @@ export default {
     };
   },
   methods: {
-    ...mapActions({
-      userLogin: "user/userLogin",
-    }),
-    login() {
-      this.userLogin(this.user).then(() => {
-        this.$router.push({ name: "todos" });
+    async login() {
+      await new Promise((resolve, reject) => {
+        console.log("user:" + this.user.email + " " + this.user.password);
+        axios({
+          method: "post",
+          url: API + `/login`,
+          headers: {
+            "X-TenantID": "dicerproject",
+          },
+          data: {
+            email: this.user.email,
+            password: this.user.password,
+          },
+        })
+          .then((response) => {
+            console.log(response);
+            localStorage.setItem("authToken", response.headers.authorization);
+            resolve();
+          })
+          .catch((err) => {
+            console.log(err);
+            reject(err);
+          });
       });
+      this.$router.push({ name: "todos" });
     },
   },
 };

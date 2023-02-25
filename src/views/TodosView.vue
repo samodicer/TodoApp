@@ -17,7 +17,7 @@
       :current="currentTodo"
       title="Update"
     />
-    <div class="my-4" v-for="todo in getTodoList" :key="todo.id">
+    <div class="my-4" v-for="todo in todoList" :key="todo.id">
       <TodoItem
         :id="todo.id"
         :text="todo.text"
@@ -31,37 +31,28 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
 import TodoDialog from "../components/TodoDialog.vue";
 import TodoItem from "../components/TodoItem.vue";
+import { API } from "../api";
+import axios from "axios";
 
 export default {
   name: "TodosView",
   components: { TodoDialog, TodoItem },
   data() {
     return {
+      todoList: {},
       currentTodo: {
+        id: -1,
         text: "",
         completed: false,
         dueDate: "",
       },
       addDialog: false,
       editDialog: false,
-      clickedTodo: -1,
     };
   },
-  computed: {
-    ...mapGetters({
-      getTodoList: "todos/getTodoList",
-    }),
-  },
   methods: {
-    ...mapActions({
-      fetchTodoList: "todos/fetchTodoList",
-      createTodo: "todos/createTodo",
-      updateTodo: "todos/updateTodo",
-      deleteTodo: "todos/deleteTodo",
-    }),
     showAddDialog() {
       this.addDialog = true;
     },
@@ -70,34 +61,125 @@ export default {
     },
     saveAddDialog(todo) {
       this.createTodo(todo).then(() => {
-        this.fetchTodoList(localStorage.getItem("authToken"));
+        this.fetchTodoList();
         this.cancelAddDialog();
       });
     },
     showEditDialog(id) {
       this.editDialog = true;
-      this.clickedTodo = id;
-      this.currentTodo = this.getTodoList.find((todo) => todo.id === id);
+      this.currentTodo = this.todoList.find((todo) => todo.id === id);
     },
     cancelEditDialog() {
       this.editDialog = false;
     },
     saveEditDialog(todo) {
-      todo.id = this.clickedTodo;
+      todo.id = this.currentTodo.id;
       this.updateTodo(todo).then(() => {
-        this.fetchTodoList(localStorage.getItem("authToken"));
+        this.fetchTodoList();
         this.cancelEditDialog();
       });
     },
     deleteClickedTodo(id) {
       this.deleteTodo(id).then(() => {
-        this.fetchTodoList(localStorage.getItem("authToken"));
+        this.fetchTodoList();
         this.cancelEditDialog();
+      });
+    },
+    async fetchTodoList() {
+      return new Promise((resolve, reject) => {
+        console.log("fetching todo");
+        axios({
+          method: "get",
+          url: API + `/todolist`,
+          headers: {
+            Authorization: localStorage.getItem("authToken"),
+            "X-TenantID": "dicerproject",
+          },
+        })
+          .then((response) => {
+            console.log(response);
+            this.todoList = response.data;
+            resolve();
+          })
+          .catch((err) => {
+            console.log(err);
+            reject(err);
+          });
+      });
+    },
+    async createTodo(todo) {
+      return new Promise((resolve, reject) => {
+        axios({
+          method: "post",
+          url: API + `/todolist`,
+          headers: {
+            Authorization: localStorage.getItem("authToken"),
+            "X-TenantID": "dicerproject",
+          },
+          data: {
+            text: todo.text,
+            completed: todo.completed,
+            dueDate: todo.dueDate,
+          },
+        })
+          .then((response) => {
+            console.log(response);
+            resolve();
+          })
+          .catch((err) => {
+            console.log(err);
+            reject(err);
+          });
+      });
+    },
+    async updateTodo(todo) {
+      return new Promise((resolve, reject) => {
+        axios({
+          method: "put",
+          url: API + `/todolist/` + todo.id,
+          headers: {
+            Authorization: localStorage.getItem("authToken"),
+            "X-TenantID": "dicerproject",
+          },
+          data: {
+            text: todo.text,
+            completed: todo.completed,
+            dueDate: todo.dueDate,
+          },
+        })
+          .then((response) => {
+            console.log(response);
+            resolve();
+          })
+          .catch((err) => {
+            console.log(err);
+            reject(err);
+          });
+      });
+    },
+    async deleteTodo(id) {
+      return new Promise((resolve, reject) => {
+        axios({
+          method: "delete",
+          url: API + `/todolist/` + id,
+          headers: {
+            Authorization: localStorage.getItem("authToken"),
+            "X-TenantID": "dicerproject",
+          },
+        })
+          .then((response) => {
+            console.log(response);
+            resolve();
+          })
+          .catch((err) => {
+            console.log(err);
+            reject(err);
+          });
       });
     },
   },
   mounted() {
-    this.fetchTodoList(localStorage.getItem("authToken"));
+    this.fetchTodoList();
   },
 };
 </script>
