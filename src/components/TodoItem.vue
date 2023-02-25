@@ -26,7 +26,7 @@ export default {
     },
     dueDate: {
       type: String,
-      required: true,
+      required: false,
     },
     color: {
       type: String,

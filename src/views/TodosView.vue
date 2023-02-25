@@ -4,6 +4,12 @@
     <v-icon color="primary" size="52" @click="showAddDialog"
       >mdi-plus-circle</v-icon
     >
+    <v-select
+      class="mt-6"
+      v-model="selectedFilter"
+      label="Filter Todos"
+      :items="filters"
+    ></v-select>
     <TodoDialog
       :show="addDialog"
       :cancel="cancelAddDialog"
@@ -17,7 +23,7 @@
       :current="currentTodo"
       title="Update"
     />
-    <div class="my-4" v-for="todo in todoList" :key="todo.id">
+    <div class="my-4" v-for="todo in filteredTodoList" :key="todo.id">
       <TodoItem
         :id="todo.id"
         :text="todo.text"
@@ -41,7 +47,7 @@ export default {
   components: { TodoDialog, TodoItem },
   data() {
     return {
-      todoList: {},
+      todoList: [],
       currentTodo: {
         id: -1,
         text: "",
@@ -50,7 +56,24 @@ export default {
       },
       addDialog: false,
       editDialog: false,
+      filters: ["All", "Done", "Undone"],
+      selectedFilter: "All",
     };
+  },
+  computed: {
+    filteredTodoList() {
+      if (this.selectedFilter == "All") {
+        return this.todoList;
+      } else {
+        return this.todoList.filter((todo) => {
+          if (this.selectedFilter == "Done") {
+            return todo.completed == true;
+          } else if (this.selectedFilter == "Undone") {
+            return todo.completed == false;
+          }
+        });
+      }
+    },
   },
   methods: {
     showAddDialog() {
