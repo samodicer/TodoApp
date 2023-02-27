@@ -66,12 +66,15 @@ export default {
       showPassword: false,
       isFormValid: false,
       rules: {
+        //checking if value is empty
         required: (value) => !!value || "This field is required",
+        //checking if value has more than 255 chars
         max: (value) => value.length <= 255 || "Max 255 characters",
       },
     };
   },
   methods: {
+    //call to API
     async login() {
       await new Promise((resolve, reject) => {
         console.log("user:" + this.user.email + " " + this.user.password);
@@ -88,30 +91,36 @@ export default {
         })
           .then((response) => {
             console.log(response);
+            //set token to local storage from response data
             localStorage.setItem("authToken", response.headers.authorization);
             this.isAuth = true;
             resolve();
           })
           .catch((err) => {
             console.log(err);
+            //set alert from response data
             this.alertText = err.response.data.errorMessage;
             this.alert = true;
             reject(err);
           });
       });
+      //redirect to todos page
       this.$router.push({ name: "todos" });
     },
     checkToken() {
+      //set value according to whether token is in local storage
       return localStorage.getItem("authToken") != null
         ? (this.isAuth = true)
         : (this.isAuth = false);
     },
     logout() {
+      //remove token from local storage
       localStorage.removeItem("authToken");
       this.isAuth = false;
     },
   },
   mounted() {
+    //check token on mount
     this.checkToken();
   },
 };

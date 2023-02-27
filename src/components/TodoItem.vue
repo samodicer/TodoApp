@@ -36,15 +36,22 @@ export default {
       type: Function,
       required: true,
     },
+    currentTodo: {
+      type: Function,
+      required: true,
+    },
     deleteTodo: {
       type: Function,
       required: true,
     },
   },
   methods: {
+    //if update icon is clicked execute methods in parent component
     executeUpdate() {
-      this.show(this.id);
+      this.show();
+      this.currentTodo(this.id);
     },
+    //if delete icon is clicked execute method in parent component
     executeDelete() {
       this.deleteTodo(this.id);
     },

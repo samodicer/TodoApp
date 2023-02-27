@@ -57,7 +57,9 @@ export default {
       dialog: true,
       isFormValid: false,
       rules: {
+        //checking if value is empty
         required: (value) => !!value || "This field is required",
+        //checking if value has more than 255 chars
         max: (value) => value?.length <= 255 || "Max 255 characters",
       },
     };
@@ -85,11 +87,13 @@ export default {
     },
   },
   methods: {
+    //execute action in parent
     execute() {
       this.action(this.todo);
     },
   },
   watch: {
+    //watching prop current to set inputs for update dialog
     current(newVal) {
       this.todo = Vue.util.extend({}, newVal);
     },

@@ -49,27 +49,24 @@ export default {
     toggled: false,
   }),
   methods: {
+    //redirection on clicked route
     navigate(route) {
+      //it will not trigger if redirecting to current route
       if (this.$route.path != route) {
         this.$router.push(route);
       }
     },
   },
   watch: {
+    //watching for language switch
     toggled(newVal) {
-      if (newVal) {
-        this.$i18n.locale = "cz";
-      } else {
-        this.$i18n.locale = "en";
-      }
+      //set locale value based on switch off/on
+      newVal ? (this.$i18n.locale = "cz") : (this.$i18n.locale = "en");
     },
   },
   mounted() {
-    if (this.$i18n.locale == "en") {
-      this.toggled = false;
-    } else {
-      this.toggled = true;
-    }
+    //set switch on mount based on locale value
+    this.$i18n.locale == "en" ? (this.toggled = false) : (this.toggled = true);
   },
 };
 </script>

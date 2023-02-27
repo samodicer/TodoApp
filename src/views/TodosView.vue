@@ -30,6 +30,7 @@
         :dueDate="todo.dueDate"
         :color="todo.completed ? '#C8E6C9' : '#FFCDD2'"
         :show="showEditDialog"
+        :currentTodo="setCurrentTodo"
         :deleteTodo="deleteClickedTodo"
       />
     </div>
@@ -62,9 +63,12 @@ export default {
   },
   computed: {
     filteredTodoList() {
+      //if selected value is All do not apply filter
       if (this.selectedFilter == "All") {
         return this.todoList;
       } else {
+        //if selected value is Done filter completed todos
+        //if its Undone filter uncompleted todos
         return this.todoList.filter((todo) => {
           if (this.selectedFilter == "Done") {
             return todo.completed == true;
@@ -76,51 +80,66 @@ export default {
     },
   },
   methods: {
+    //method to show add todo dialog
     showAddDialog() {
       this.addDialog = true;
     },
+    //method to cancel add todo dialog
     cancelAddDialog() {
       this.addDialog = false;
     },
+    //trigger call to create todo endpoint
     saveAddDialog(todo) {
       this.createTodo(todo).then(() => {
+        //if its done fetch todos again and cancel dialog
         this.fetchTodoList();
         this.cancelAddDialog();
       });
     },
-    showEditDialog(id) {
+    //method to show edit todo dialog
+    showEditDialog() {
       this.editDialog = true;
-      this.currentTodo = this.todoList.find((todo) => todo.id === id);
     },
+    //method to cancel edit todo dialog
     cancelEditDialog() {
       this.editDialog = false;
     },
+    //method to set current todo for update dialog
+    setCurrentTodo(id) {
+      this.currentTodo = this.todoList.find((todo) => todo.id == id);
+    },
+    //trigger call to update todo endpoint
     saveEditDialog(todo) {
+      //set id of todo
       todo.id = this.currentTodo.id;
       this.updateTodo(todo).then(() => {
+        //if its done fetch todos again and cancel dialog
         this.fetchTodoList();
         this.cancelEditDialog();
       });
     },
+    //trigger call to delete todo endpoint
     deleteClickedTodo(id) {
       this.deleteTodo(id).then(() => {
+        //if its done fetch todos again and cancel dialog
         this.fetchTodoList();
-        this.cancelEditDialog();
       });
     },
+    //async calls to API
     async fetchTodoList() {
       return new Promise((resolve, reject) => {
-        console.log("fetching todo list");
         axios({
           method: "get",
           url: API + `/todolist`,
           headers: {
+            //get token from local storage
             Authorization: localStorage.getItem("authToken"),
             "X-TenantID": "dicerproject",
           },
         })
           .then((response) => {
             console.log(response);
+            //if request is successful set todo list from repsonse data
             this.todoList = response.data;
             resolve();
           })
@@ -136,6 +155,7 @@ export default {
           method: "post",
           url: API + `/todolist`,
           headers: {
+            //get token from local storage
             Authorization: localStorage.getItem("authToken"),
             "X-TenantID": "dicerproject",
           },
@@ -161,6 +181,7 @@ export default {
           method: "put",
           url: API + `/todolist/` + todo.id,
           headers: {
+            //get token from local storage
             Authorization: localStorage.getItem("authToken"),
             "X-TenantID": "dicerproject",
           },
@@ -186,6 +207,7 @@ export default {
           method: "delete",
           url: API + `/todolist/` + id,
           headers: {
+            //get token from local storage
             Authorization: localStorage.getItem("authToken"),
             "X-TenantID": "dicerproject",
           },
@@ -202,6 +224,7 @@ export default {
     },
   },
   mounted() {
+    //fetch todo list on mount
     this.fetchTodoList();
   },
 };
