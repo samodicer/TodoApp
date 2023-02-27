@@ -16,8 +16,8 @@
           <v-text-field
             v-model="todo.dueDate"
             tabindex="1"
-            label="Date"
-            placeholder="Date"
+            label="Due Date"
+            placeholder="Due Date"
             :rules="[rules.required, rules.max]"
             outlined
             color="primary"
