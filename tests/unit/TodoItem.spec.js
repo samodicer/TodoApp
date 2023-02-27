@@ -2,25 +2,25 @@ import { shallowMount } from "@vue/test-utils";
 import TodoItem from "@/components/TodoItem.vue";
 
 describe("TodoItem.vue", () => {
+  const testProps = {
+    id: 1,
+    text: "Text",
+    dueDate: "2023-10-10",
+    color: "#C8E6C9",
+    show: Function(),
+    deleteTodo: Function(),
+  };
   it("renders text set by prop", () => {
-    const text = "Text";
-    const dueDate = "2023-01-01";
     const wrapper = shallowMount(TodoItem, {
-      propsData: {
-        text: text,
-        dueDate: dueDate,
-      },
+      propsData: testProps,
     });
-    expect(wrapper.text()).toMatch(text);
-    expect(wrapper.text()).toMatch(dueDate);
+    expect(wrapper.text()).toMatch(testProps.text);
+    expect(wrapper.text()).toMatch(testProps.dueDate);
   });
   it("renders attribute set by prop", () => {
-    const color = "#C8E6C9";
     const wrapper = shallowMount(TodoItem, {
-      propsData: {
-        color: color,
-      },
+      propsData: testProps,
     });
-    expect(wrapper.attributes().color).toBe(color);
+    expect(wrapper.attributes().color).toBe(testProps.color);
   });
 });
