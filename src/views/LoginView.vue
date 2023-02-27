@@ -39,6 +39,9 @@
             Login
           </v-btn>
         </div>
+        <v-alert class="mt-6" v-model="alert" dense outlined type="error">
+          {{ alertText }}
+        </v-alert>
       </div>
     </v-card>
   </v-form>
@@ -53,6 +56,9 @@ export default {
   data() {
     return {
       isAuth: false,
+      alert: false,
+      alertText: "",
+      alertTimeout: 2000,
       user: {
         email: "",
         password: "",
@@ -88,6 +94,8 @@ export default {
           })
           .catch((err) => {
             console.log(err);
+            this.alertText = err.response.data.errorMessage;
+            this.alert = true;
             reject(err);
           });
       });
