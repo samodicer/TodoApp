@@ -58,7 +58,7 @@ export default {
       isFormValid: false,
       rules: {
         required: (value) => !!value || "This field is required",
-        max: (value) => value.length <= 255 || "Max 255 characters",
+        max: (value) => value?.length <= 255 || "Max 255 characters",
       },
     };
   },

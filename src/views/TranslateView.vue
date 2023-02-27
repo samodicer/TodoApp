@@ -1,7 +1,7 @@
 <template>
   <div class="d-flex justify-center pa-6">
-    <v-card width="800" flat>
-      <v-card-title class="justify-center text-h2">{{
+    <v-card max-width="800" flat>
+      <v-card-title class="justify-center text-h4">{{
         $t("vue_title")
       }}</v-card-title>
       <v-card-text class="text-center text-h5">{{
