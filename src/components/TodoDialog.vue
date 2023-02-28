@@ -1,6 +1,6 @@
 <template>
   <v-dialog :value="show" width="auto" persistent>
-    <v-form class="d-flex justify-center" v-model="isFormValid">
+    <v-form class="d-flex justify-center" v-model="isFormValid" ref="form">
       <v-card class="pa-6" width="600">
         <v-card-text>
           <v-card-title class="justify-center">{{ title }}</v-card-title>
@@ -13,28 +13,27 @@
             outlined
             color="primary"
           ></v-text-field>
-          <v-text-field
-            v-model="todo.dueDate"
-            tabindex="1"
-            :label="input2"
-            :placeholder="input2"
-            :rules="[rules.required, rules.max]"
-            outlined
-            color="primary"
-          ></v-text-field>
+          <div @click="showPicker = true">
+            <v-text-field
+              v-model="todo.dueDate"
+              tabindex="1"
+              :label="input2"
+              :placeholder="input2"
+              :rules="[rules.required, rules.max]"
+              outlined
+              color="primary"
+            ></v-text-field>
+          </div>
+          <v-dialog width="300" v-model="showPicker">
+            <v-date-picker v-model="todo.dueDate" reactive></v-date-picker>
+            <v-btn color="primary" @click="showPicker = false"> OK </v-btn>
+          </v-dialog>
           <v-checkbox :label="checkbox" v-model="todo.completed"></v-checkbox>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="blue-darken-1" variant="text" @click="cancel">
-            Close
-          </v-btn>
-          <v-btn
-            color="blue-darken-1"
-            variant="text"
-            :disabled="!isFormValid"
-            @click="execute()"
-          >
+          <v-btn @click="executeCancel()"> Close </v-btn>
+          <v-btn :disabled="!isFormValid" @click="executeAction()">
             {{ btntext }}
           </v-btn>
         </v-card-actions>
@@ -53,6 +52,8 @@ export default {
         completed: false,
         dueDate: "",
       },
+      picker: "",
+      showPicker: false,
       dialog: true,
       isFormValid: false,
       rules: {
@@ -103,8 +104,13 @@ export default {
   },
   methods: {
     //execute action in parent
-    execute() {
+    executeAction() {
       this.action(this.todo);
+      this.$refs.form.reset();
+    },
+    executeCancel() {
+      this.cancel();
+      this.$refs.form.reset();
     },
   },
   watch: {
