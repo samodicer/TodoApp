@@ -1,28 +1,31 @@
 <template>
   <v-dialog :value="show" width="auto" persistent>
     <v-form class="d-flex justify-center" v-model="isFormValid">
-      <v-card class="pa-6">
+      <v-card class="pa-6" width="600">
         <v-card-text>
-          <v-card-title class="justify-center">{{ title }} Todo</v-card-title>
+          <v-card-title class="justify-center">{{ title }}</v-card-title>
           <v-text-field
-            v-model="todo.text"
+            v-model="dialogModel.input1"
             tabindex="1"
-            label="Text"
-            placeholder="Text"
+            :label="firstinput"
+            :placeholder="firstinput"
             :rules="[rules.required, rules.max]"
             outlined
             color="primary"
           ></v-text-field>
           <v-text-field
-            v-model="todo.dueDate"
+            v-model="dialogModel.input2"
             tabindex="1"
-            label="Due Date"
-            placeholder="Due Date"
+            :label="secondinput"
+            :placeholder="secondinput"
             :rules="[rules.required, rules.max]"
             outlined
             color="primary"
           ></v-text-field>
-          <v-checkbox label="Completed" v-model="todo.completed"></v-checkbox>
+          <v-checkbox
+            :label="checkbox"
+            v-model="dialogModel.checkbox"
+          ></v-checkbox>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -35,7 +38,7 @@
             :disabled="!isFormValid"
             @click="execute()"
           >
-            {{ title }}
+            {{ btntext }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -44,15 +47,14 @@
 </template>
 
 <script>
-import Vue from "vue";
 export default {
   name: "TodoDialog",
   data() {
     return {
-      todo: {
-        text: "",
-        completed: false,
-        dueDate: "",
+      dialogModel: {
+        input1: "",
+        input2: "",
+        checkbox: false,
       },
       dialog: true,
       isFormValid: false,
@@ -65,6 +67,26 @@ export default {
     };
   },
   props: {
+    title: {
+      type: String,
+      required: true,
+    },
+    firstinput: {
+      type: String,
+      required: true,
+    },
+    secondinput: {
+      type: String,
+      required: true,
+    },
+    checkbox: {
+      type: String,
+      required: false,
+    },
+    btntext: {
+      type: String,
+      required: true,
+    },
     show: {
       type: Boolean,
       required: true,
@@ -77,10 +99,6 @@ export default {
       type: Function,
       required: true,
     },
-    title: {
-      type: String,
-      required: true,
-    },
     current: {
       type: Object,
       required: false,
@@ -89,13 +107,13 @@ export default {
   methods: {
     //execute action in parent
     execute() {
-      this.action(this.todo);
+      this.action(this.dialogModel);
     },
   },
   watch: {
     //watching prop current to set inputs for update dialog
     current(newVal) {
-      this.todo = Vue.util.extend({}, newVal);
+      this.dialogModel = newVal;
     },
   },
 };

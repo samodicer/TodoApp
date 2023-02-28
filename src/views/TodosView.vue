@@ -14,14 +14,22 @@
       :show="addDialog"
       :cancel="cancelAddDialog"
       :action="saveAddDialog"
-      title="Create"
+      title="Create Todo"
+      firstinput="Text"
+      secondinput="Due Date"
+      checkbox="Completed"
+      btntext="Create"
     />
     <TodoDialog
       :show="editDialog"
       :cancel="cancelEditDialog"
       :action="saveEditDialog"
       :current="currentTodo"
-      title="Update"
+      title="Update Todo"
+      firstinput="Text"
+      secondinput="Due Date"
+      checkbox="Completed"
+      btntext="Update"
     />
     <div class="my-4" v-for="todo in filteredTodoList" :key="todo.id">
       <TodoItem
@@ -42,6 +50,7 @@ import TodoDialog from "../components/TodoDialog.vue";
 import TodoItem from "../components/TodoItem.vue";
 import { API } from "../api";
 import axios from "axios";
+import Vue from "vue";
 
 export default {
   name: "TodosView",
@@ -106,7 +115,10 @@ export default {
     },
     //method to set current todo for update dialog
     setCurrentTodo(id) {
-      this.currentTodo = this.todoList.find((todo) => todo.id == id);
+      this.currentTodo = Vue.util.extend(
+        {},
+        this.todoList.find((todo) => todo.id == id)
+      );
     },
     //trigger call to update todo endpoint
     saveEditDialog(todo) {
