@@ -8,6 +8,7 @@ describe("TodoItem.vue", () => {
     dueDate: "2023-10-10",
     color: "#C8E6C9",
     show: Function(),
+    currentTodo: Function(),
     deleteTodo: Function(),
   };
   it("renders text set by prop", () => {
