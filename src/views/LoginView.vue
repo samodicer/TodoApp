@@ -1,6 +1,6 @@
 <template>
   <v-form class="d-flex justify-center pa-6" v-model="isFormValid">
-    <v-card flat width="600">
+    <v-card flat width="300">
       <div v-if="isAuth" class="text-center">
         <v-card-title class="justify-center">You are logged in.</v-card-title>
         <v-icon color="primary" size="52" @click="logout()">mdi-logout</v-icon>
