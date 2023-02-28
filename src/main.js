@@ -7,6 +7,7 @@ import i18n from "./i18n";
 
 Vue.config.productionTip = false;
 
+//deny access to pages that require login to non-logged users
 router.beforeEach((to, from, next) => {
   if (to.matched.some((record) => record.meta.requiresLogin)) {
     if (localStorage.getItem("authToken") == null) {
