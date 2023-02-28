@@ -5,27 +5,24 @@
         <v-card-text>
           <v-card-title class="justify-center">{{ title }}</v-card-title>
           <v-text-field
-            v-model="dialogModel.input1"
+            v-model="todo.text"
             tabindex="1"
-            :label="firstinput"
-            :placeholder="firstinput"
+            :label="input1"
+            :placeholder="input1"
             :rules="[rules.required, rules.max]"
             outlined
             color="primary"
           ></v-text-field>
           <v-text-field
-            v-model="dialogModel.input2"
+            v-model="todo.dueDate"
             tabindex="1"
-            :label="secondinput"
-            :placeholder="secondinput"
+            :label="input2"
+            :placeholder="input2"
             :rules="[rules.required, rules.max]"
             outlined
             color="primary"
           ></v-text-field>
-          <v-checkbox
-            :label="checkbox"
-            v-model="dialogModel.checkbox"
-          ></v-checkbox>
+          <v-checkbox :label="checkbox" v-model="todo.completed"></v-checkbox>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -51,10 +48,10 @@ export default {
   name: "TodoDialog",
   data() {
     return {
-      dialogModel: {
-        input1: "",
-        input2: "",
-        checkbox: false,
+      todo: {
+        text: "",
+        completed: false,
+        dueDate: "",
       },
       dialog: true,
       isFormValid: false,
@@ -67,26 +64,6 @@ export default {
     };
   },
   props: {
-    title: {
-      type: String,
-      required: true,
-    },
-    firstinput: {
-      type: String,
-      required: true,
-    },
-    secondinput: {
-      type: String,
-      required: true,
-    },
-    checkbox: {
-      type: String,
-      required: false,
-    },
-    btntext: {
-      type: String,
-      required: true,
-    },
     show: {
       type: Boolean,
       required: true,
@@ -99,6 +76,26 @@ export default {
       type: Function,
       required: true,
     },
+    title: {
+      type: String,
+      required: true,
+    },
+    input1: {
+      type: String,
+      required: true,
+    },
+    input2: {
+      type: String,
+      required: true,
+    },
+    checkbox: {
+      type: String,
+      required: false,
+    },
+    btntext: {
+      type: String,
+      required: true,
+    },
     current: {
       type: Object,
       required: false,
@@ -107,13 +104,13 @@ export default {
   methods: {
     //execute action in parent
     execute() {
-      this.action(this.dialogModel);
+      this.action(this.todo);
     },
   },
   watch: {
     //watching prop current to set inputs for update dialog
     current(newVal) {
-      this.dialogModel = newVal;
+      this.todo = newVal;
     },
   },
 };

@@ -53,7 +53,7 @@ export default {
     navigate(route) {
       //it will not trigger if redirecting to current route
       if (this.$route.path != route) {
-        this.$router.push(route);
+        this.$router.push(route).catch((e) => e);
       }
     },
   },

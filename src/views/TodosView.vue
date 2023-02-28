@@ -15,10 +15,10 @@
       :cancel="cancelAddDialog"
       :action="saveAddDialog"
       title="Create Todo"
-      firstinput="Text"
-      secondinput="Due Date"
-      checkbox="Completed"
       btntext="Create"
+      input1="Text"
+      input2="Due Date"
+      checkbox="Completed"
     />
     <TodoDialog
       :show="editDialog"
@@ -26,10 +26,10 @@
       :action="saveEditDialog"
       :current="currentTodo"
       title="Update Todo"
-      firstinput="Text"
-      secondinput="Due Date"
-      checkbox="Completed"
       btntext="Update"
+      input1="Text"
+      input2="Due Date"
+      checkbox="Completed"
     />
     <div class="my-4" v-for="todo in filteredTodoList" :key="todo.id">
       <TodoItem

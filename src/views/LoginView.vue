@@ -77,7 +77,6 @@ export default {
     //call to API
     async login() {
       await new Promise((resolve, reject) => {
-        console.log("user:" + this.user.email + " " + this.user.password);
         axios({
           method: "post",
           url: API + `/login`,
