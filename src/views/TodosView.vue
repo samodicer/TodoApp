@@ -18,7 +18,6 @@
       btntext="Create"
       input1="Text"
       input2="Due Date"
-      checkbox="Completed"
     />
     <TodoDialog
       :show="editDialog"

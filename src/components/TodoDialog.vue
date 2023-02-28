@@ -28,7 +28,9 @@
             <v-date-picker v-model="todo.dueDate" reactive></v-date-picker>
             <v-btn color="primary" @click="showPicker = false"> OK </v-btn>
           </v-dialog>
-          <v-checkbox :label="checkbox" v-model="todo.completed"></v-checkbox>
+          <div v-if="checkbox">
+            <v-checkbox :label="checkbox" v-model="todo.completed"></v-checkbox>
+          </div>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -103,13 +105,16 @@ export default {
     },
   },
   methods: {
-    //execute action in parent
     executeAction() {
+      //execute action in parent
       this.action(this.todo);
+      //reset inputs
       this.$refs.form.reset();
     },
     executeCancel() {
+      //execute cancel in parent
       this.cancel();
+      //reset inputs
       this.$refs.form.reset();
     },
   },
